@@ -7,21 +7,23 @@
  */
 
 // The names and URLs to all of the feeds we'd like available.
-var allFeeds = [
-    {
-        name: 'Udacity Blog',
-        url: 'http://blog.udacity.com/feeds/posts/default?alt=rss'
-    }, {
-        name: 'CSS Tricks',
-        url: 'http://css-tricks.com/feed'
-    }, {
-        name: 'HTML5 Rocks',
-        url: 'http://feeds.feedburner.com/html5rocks'
-    }, {
-        name: 'Linear Digressions',
-        url: 'http://feeds.feedburner.com/udacity-linear-digressions'
-    }
-];
+var allFeeds = [{
+    name: 'Udacity Blog',
+    url: 'http://blog.udacity.com/feeds/posts/default?alt=rss'
+        // that's how the color changing feature could be implemented:
+        //color: '#4caf50'
+}, {
+    name: 'CSS Tricks',
+    url: 'http://css-tricks.com/feed'
+        // that's how the color changing feature could be implemented
+        // color: 'orange'
+}, {
+    name: 'HTML5 Rocks',
+    url: 'http://feeds.feedburner.com/html5rocks'
+}, {
+    name: 'Linear Digressions',
+    url: 'http://feeds.feedburner.com/udacity-linear-digressions'
+}];
 
 /* This function starts up our application. The Google Feed
  * Reader API is loaded asynchonously and will then call this
@@ -43,13 +45,14 @@ function init() {
 function loadFeed(id, cb) {
     var feedUrl = allFeeds[id].url,
         feedName = allFeeds[id].name,
+        feedColor = allFeeds[id].color,
         feed = new google.feeds.Feed(feedUrl);
 
     /* Load the feed using the Google Feed Reader API.
      * Once the feed has been loaded, the callback function
      * is executed.
      */
-    feed.load(function(result) {
+    feed.load(function (result) {
         if (!result.error) {
             /* If loading the feed did not result in an error,
              * get started making the DOM manipulations required
@@ -61,15 +64,18 @@ function loadFeed(id, cb) {
                 entriesLen = entries.length,
                 entryTemplate = Handlebars.compile($('.tpl-entry').html());
 
-            title.html(feedName);   // Set the header text
-            container.empty();      // Empty out all previous entries
+            // that's how the color changing feature could be implemented
+            //$('.header')[0].style.background = feedColor;
+
+            title.html(feedName); // Set the header text
+            container.empty(); // Empty out all previous entries
 
             /* Loop through the entries we just loaded via the Google
              * Feed Reader API. We'll then parse that entry against the
              * entryTemplate (created above using Handlebars) and append
              * the resulting HTML to the list of entries on the page.
              */
-            entries.forEach(function(entry) {
+            entries.forEach(function (entry) {
                 container.append(entryTemplate(entry));
             });
         }
@@ -90,7 +96,7 @@ google.setOnLoadCallback(init);
  * place our code in the $() function to ensure it doesn't execute
  * until the DOM is ready.
  */
-$(function() {
+$(function () {
     var container = $('.feed'),
         feedList = $('.feed-list'),
         feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
@@ -103,7 +109,7 @@ $(function() {
      * above using Handlebars) and append it to the list of all
      * available feeds within the menu.
      */
-    allFeeds.forEach(function(feed) {
+    allFeeds.forEach(function (feed) {
         feed.id = feedId;
         feedList.append(feedItemTemplate(feed));
 
@@ -114,7 +120,7 @@ $(function() {
      * the menu, load the feed, and prevent the default action
      * (following the link) from occuring.
      */
-    feedList.on('click', 'a', function() {
+    feedList.on('click', 'a', function () {
         var item = $(this);
 
         $('body').addClass('menu-hidden');
@@ -125,7 +131,7 @@ $(function() {
     /* When the menu icon is clicked on, we need to toggle a class
      * on the body to perform the hiding/showing of our menu.
      */
-    menuIcon.on('click', function() {
+    menuIcon.on('click', function () {
         $('body').toggleClass('menu-hidden');
     });
 }());
