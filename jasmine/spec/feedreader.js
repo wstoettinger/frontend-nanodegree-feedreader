@@ -9,6 +9,8 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function () {
+    'use strict';
+
     /* This is our first test suite - a test suite just contains
      * a related set of tests. This suite is all about the RSS
      * feeds definitions, the allFeeds variable in our application.
@@ -26,36 +28,63 @@ $(function () {
             expect(allFeeds.length).not.toBe(0);
         });
 
+        // // test if each feed has a name and the name is not empty
+        // it('testing names', function () {
+        //     for (var i = 0; i < allFeeds.length; i++) {
+        //         var feed = allFeeds[i];
+        //         expect(feed.name).toBeDefined();
+        //         expect(feed.name.length).not.toBe(0);
+        //     }
+        // });
+
+        // // test if each feed has an url and the url is not empty
+        // it('testing urls', function () {
+        //     for (var i = 0; i < allFeeds.length; i++) {
+        //         var feed = allFeeds[i];
+        //         expect(feed.url).toBeDefined();
+        //         expect(feed.url.length).not.toBe(0);
+        //     }
+        // });
+
         // run through each feed
         for (var i = 0; i < allFeeds.length; i++) {
-            var feed = allFeeds[i];
-            describe('Feed: ' + feed.name, function () {
-                // test if each feed has a name and the name is not empty
-                it('has Name', function () {
-                    expect(feed.name).toBeDefined();
-                    expect(feed.name.length).not.toBe(0);
+            // contrary to the reviewers suggestion of putting the tests in separate for loops (see commented code above), i solved the scope-problem by creating an anonymous function and executing it.
+            (function testFeed(feed) {
+                describe('Feed: ' + feed.name, function () {
+                    // test if each feed has a name and the name is not empty
+                    it('has Name', function () {
+                        console.log(feed.name);
+                        expect(feed.name).toBeDefined();
+                        expect(feed.name.length).not.toBe(0);
+                    });
+                    // test if each feed has an url and the url is not empty
+                    it('has URL', function () {
+                        console.log(feed.url);
+                        expect(feed.url).toBeDefined();
+                        expect(feed.url.length).not.toBe(0);
+                    });
                 });
-                // test if each feed has an url and the url is not empty
-                it('has URL', function () {
-                    expect(feed.url).toBeDefined();
-                    expect(feed.url.length).not.toBe(0);
-                });
-            });
+            })(allFeeds[i]);
         }
     });
 
+    /*
+     *  Testing the menu
+     */
     describe("The  menu", function () {
         var bdy = $('body');
         var menuIcon = $('.menu-icon-link');
 
+        // this test ensures that the menu element is hidden by default
         it("is hidden", function () {
             expect(bdy.hasClass('menu-hidden')).toBe(true);
         });
-        it("displays on click", function () {
+
+        // this test ensures, that the menu element shows and hides on clicks
+        it("displays and hides on click", function () {
             simulate(menuIcon[0], "click");
             expect(bdy.hasClass('menu-hidden')).toBe(false);
-        });
-        it("hides on click", function () {
+
             simulate(menuIcon[0], "click");
             expect(bdy.hasClass('menu-hidden')).toBe(true);
         });
@@ -73,8 +102,8 @@ $(function () {
         it("loads initial entries", function (done) {
             function testLoadFeed() {
                 loadFeed(0, function () {
-                    var entries = $(".feed").children().filter(".entry-link")
-                    if (entries.length == 0)
+                    var entries = $(".feed").children().filter(".entry-link");
+                    if (entries.length === 0)
                         done.fail("no entries loaded");
                     else
                         done();
@@ -95,7 +124,7 @@ $(function () {
                             done.fail("content didn't change");
                         else
                             done();
-                    }
+                    };
                 }
 
                 // first load Feed number 1 and then number 0 again and compare if the content actully changed
@@ -119,7 +148,7 @@ $(function () {
                             done.fail("Udacious Test: color didn't change"); // this assumes that the two tested feeds have set a different color!
                         else
                             done();
-                    }
+                    };
                 }
 
                 // first load Feed number 1 and then number 0 again and compare if the color changed
@@ -180,7 +209,8 @@ function extend(destination, source) {
 var eventMatchers = {
     'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
     'MouseEvents': /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/
-}
+};
+
 var defaultOptions = {
     pointerX: 0,
     pointerY: 0,
@@ -191,4 +221,4 @@ var defaultOptions = {
     metaKey: false,
     bubbles: true,
     cancelable: true
-}
+};
