@@ -28,44 +28,46 @@ $(function () {
             expect(allFeeds.length).not.toBe(0);
         });
 
-        // // test if each feed has a name and the name is not empty
-        // it('testing names', function () {
-        //     for (var i = 0; i < allFeeds.length; i++) {
-        //         var feed = allFeeds[i];
-        //         expect(feed.name).toBeDefined();
-        //         expect(feed.name.length).not.toBe(0);
-        //     }
-        // });
+        // test if each feed has a name and the name is not empty
+        it('testing names', function () {
+            for (var i = 0; i < allFeeds.length; i++) {
+                var feed = allFeeds[i];
+                console.log(feed.name);
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
+            }
+        });
 
-        // // test if each feed has an url and the url is not empty
-        // it('testing urls', function () {
-        //     for (var i = 0; i < allFeeds.length; i++) {
-        //         var feed = allFeeds[i];
-        //         expect(feed.url).toBeDefined();
-        //         expect(feed.url.length).not.toBe(0);
-        //     }
-        // });
+        // test if each feed has an url and the url is not empty
+        it('testing urls', function () {
+            for (var i = 0; i < allFeeds.length; i++) {
+                var feed = allFeeds[i];
+                console.log(feed.url);
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+            }
+        });
 
         // run through each feed
-        for (var i = 0; i < allFeeds.length; i++) {
-            // contrary to the reviewers suggestion of putting the tests in separate for loops (see commented code above), i solved the scope-problem by creating an anonymous function and executing it.
-            (function testFeed(feed) {
-                describe('Feed: ' + feed.name, function () {
-                    // test if each feed has a name and the name is not empty
-                    it('has Name', function () {
-                        console.log(feed.name);
-                        expect(feed.name).toBeDefined();
-                        expect(feed.name.length).not.toBe(0);
-                    });
-                    // test if each feed has an url and the url is not empty
-                    it('has URL', function () {
-                        console.log(feed.url);
-                        expect(feed.url).toBeDefined();
-                        expect(feed.url.length).not.toBe(0);
-                    });
-                });
-            })(allFeeds[i]);
-        }
+        // for (var i = 0; i < allFeeds.length; i++) {
+        //     // contrary to the reviewers suggestion of putting the tests in separate for loops (see commented code above), i solved the scope-problem by creating an anonymous function and executing it.
+        //     (function testFeed(feed) {
+        //         describe('Feed: ' + feed.name, function () {
+        //             // test if each feed has a name and the name is not empty
+        //             it('has Name', function () {
+        //                 console.log(feed.name);
+        //                 expect(feed.name).toBeDefined();
+        //                 expect(feed.name.length).not.toBe(0);
+        //             });
+        //             // test if each feed has an url and the url is not empty
+        //             it('has URL', function () {
+        //                 console.log(feed.url);
+        //                 expect(feed.url).toBeDefined();
+        //                 expect(feed.url.length).not.toBe(0);
+        //             });
+        //         });
+        //     })(allFeeds[i]);
+        // }
     });
 
     /*
